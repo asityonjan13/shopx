@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Services\AlertService;
+use App\Traits\FileUploadTrait;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+
+class ProfileController extends Controller
+{
+    use FileUploadTrait;
+    function index(): View
+    {
+        return view('admin.profile.index');
+    }
+
+    function profileUpdate(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:50'],
+            'email' => ['required', 'email', 'unique:admins,email,' . auth('admin')->id()],
+            'avatar' => ['nullable', 'image', 'max:2048']
+        ]);
+
+        $user = auth('admin')->user();
+        if ($request->hasFile('avatar')) {
+            $filepath = $this->uploadFile($request->file('avatar'), $user->avatar);
+            $filepath ? $user->avatar = $filepath : null;
+        }
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+
+        AlertService::updated();
+        return redirect()->back();
+    }
+
+    function passwordUpdate(Request $request): RedirectResponse
+    {
+        //  dd($request->user());
+        $request->validate([
+            'current_password' => ['required', 'string', 'current_password'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+
+        ]);
+
+        $user = auth('admin')->user();
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        AlertService::updated();
+        return redirect()->back();
+    }
+}

@@ -28,9 +28,8 @@
                                         </p>
                                     </div>
 
-                                    <form method="POST" action="{{ route('login') }}">
+                                    <form method="POST" action="{{ route('login.submit') }}">
                                         @csrf
-
                                         <!-- Email Address -->
                                         <div class="form-group">
                                             <input id="email" type="email" name="email" class="block mt-1 w-full"

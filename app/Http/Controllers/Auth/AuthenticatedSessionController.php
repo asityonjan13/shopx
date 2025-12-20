@@ -18,7 +18,6 @@ class AuthenticatedSessionController extends Controller
     {
         return view('auth.login');
     }
-
     /**
      * Handle an incoming authentication request.
      */
@@ -27,6 +26,10 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        // dd(auth('web')->user()->user_type);
+        if (auth('web')->user()->user_type == 'vendor') {
+            return redirect()->intended(route('vendor.dashboard', absolute: false));
+        }
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

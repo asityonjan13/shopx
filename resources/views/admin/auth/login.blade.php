@@ -37,7 +37,7 @@
                     <h2 class="h2 text-center mb-4">Login to your account</h2>
                     <!-- Session Status -->
                     <x-auth-session-status class="mb-4" :status="session('status')" />
-                    <form method="POST" action="{{ route('admin.login') }}">
+                    <form method="POST" action="{{ route('admin.login.submit') }}">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Email address</label>

@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 class RedirectIfAuthenticated
@@ -24,7 +23,8 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
-        $guards = empty($guards) ? [null] : $guards;
+        // default guard to 'web' if none is provided
+        $guards = empty($guards) ? ['web'] : $guards;
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
@@ -38,7 +38,7 @@ class RedirectIfAuthenticated
     /**
      * Get the path the user should be redirected to when they are authenticated.
      */
-    protected function redirectTo(Request $request, string $guard='web'): ?string
+    protected function redirectTo(Request $request, string|null $guard = 'web'): ?string
     {
         return static::$redirectToCallback
             ? call_user_func(static::$redirectToCallback, $request)
@@ -48,14 +48,19 @@ class RedirectIfAuthenticated
     /**
      * Get the default URI the user should be redirected to when they are authenticated.
      */
-    protected function defaultRedirectUri(string $guard): string
+    protected function defaultRedirectUri(string|null $guard): string
     {
-        if ($guard == 'admin')
-        {
+        if ($guard === 'admin') {
             return route('admin.dashboard');
         }
-        if($guard == 'web')
-        {
+
+        if ($guard === 'web') {
+            $user = auth($guard)->user();
+
+            if ($user && $user->user_type === 'vendor') {
+                return route('vendor.dashboard');
+            }
+
             return route('dashboard');
         }
 

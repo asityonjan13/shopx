@@ -196,7 +196,7 @@ li.hr span {
 
 :root {
   --colorPrimary: #1C63E5;
-  --colorSecondary: #ff9010;
+  --colorSecondary: #6366F1;
 }
 
 ::-moz-selection {
@@ -929,7 +929,7 @@ button[type=submit] {
 
 button.submit:hover,
 button[type=submit]:hover {
-  background-color: #ed8105 !important;
+  background-color: #4F46E5 !important;
 }
 
 .btn-brand:hover {
@@ -3911,7 +3911,7 @@ table.clean th {
   display: inline-block;
   padding: 6px 20px 6px 20px;
   border-radius: 0;
-  background-color: #ff90101a;
+  background-color: #6366F11a;
   font-size: 14px;
   font-weight: 700;
 }
@@ -6987,7 +6987,7 @@ h6.post-title {
 }
 
 .cart-dropdown-wrap .shopping-cart-footer .shopping-cart-button a:hover {
-  background-color: #ed8105;
+  background-color: #4F46E5;
 }
 
 .sticky-bar.stick {
@@ -9893,7 +9893,7 @@ footer .hotline img {
 }
 
 /***************************
-    Page section margin 
+    Page section margin
 ****************************/
 .mtb-0 {
   margin: 0;
@@ -12071,7 +12071,7 @@ footer .hotline img {
   padding: 5px 15px;
   align-items: center;
   gap: 5px;
-  background: #ff90101a;
+  background: #6366F11a;
   border-radius: 0;
 }
 
@@ -12108,7 +12108,7 @@ section.footer-mid {
 }
 
 .view_all_btn {
-  background: #ff90101a;
+  background: #6366F11a;
   padding: 4px 15px;
   color: var(--colorSecondary) !important;
   border-bottom: 2px solid var(--colorSecondary);
@@ -13376,7 +13376,6 @@ textarea.form-control {
 
   .wsus__billing_summary {
     margin-left: 0;
-  }
 
   .tab-content {
     padding-left: 0px !important;
