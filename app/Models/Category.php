@@ -37,6 +37,11 @@ class Category extends Model
         return $this->hasMany(Category::class, 'parent_id')->orderBy('position');
     }
 
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
+
     // Get categories in nested structure with recursive children up to specified depth
     public static function getNested($parentId = null, $depth = 0, int $maxDepth = 4): Collection
     {
@@ -53,6 +58,25 @@ class Category extends Model
         // Recursively load nested children for each category
         foreach ($categories as $cat) {
             $cat->children_nested = self::getNested($cat->id, $depth + 1, $maxDepth);
+        }
+
+        return $categories;
+    }
+
+    public static function publicTree($parentId = null, int $depth = 0, int $maxDepth = 4): Collection
+    {
+        if ($depth >= $maxDepth) {
+            return collect([]);
+        }
+
+        $categories = self::query()
+            ->where('parent_id', $parentId)
+            ->where('is_active', true)
+            ->orderBy('position')
+            ->get();
+
+        foreach ($categories as $category) {
+            $category->children_nested = self::publicTree($category->id, $depth + 1, $maxDepth);
         }
 
         return $categories;

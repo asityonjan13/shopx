@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\SettingService;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class SettingServiceProvider extends ServiceProvider
@@ -20,6 +21,14 @@ class SettingServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        try {
+            if (! Schema::hasTable('settings')) {
+                return;
+            }
+        } catch (\Throwable) {
+            return;
+        }
+
         $settings = $this->app->make(SettingService::class);
         $settings->setSettings();
     }

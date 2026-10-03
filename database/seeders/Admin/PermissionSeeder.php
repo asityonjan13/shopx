@@ -35,6 +35,20 @@ class PermissionSeeder extends Seeder
                 'group_name' => 'Access Management',
                 'created_at' => '2025-12-12 13:26:57',
             ],
+            [
+                'id' => '4',
+                'name' => 'Category Management',
+                'guard_name' => 'admin',
+                'group_name' => 'Catalog',
+                'created_at' => '2025-12-12 13:26:57',
+            ],
+            [
+                'id' => '5',
+                'name' => 'Settings Management',
+                'guard_name' => 'admin',
+                'group_name' => 'Settings',
+                'created_at' => '2025-12-12 13:26:57',
+            ],
         ];
 
         DB::table('permissions')->insert($permissions);
